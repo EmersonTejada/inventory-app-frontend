@@ -18,15 +18,24 @@ import {
   TableRow,
 } from "../ui/table";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Input } from "../ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  inputPlaceholder: string
-  inputSearchColumn: string
-  addButonValue: string
+  inputPlaceholder: string;
+  inputSearchColumn: string;
+  addButonValue: string;
+  dialogTitle: string
+  dialogForm: React.ReactNode;
 }
 
 export const DataTable = <TData, TValue>({
@@ -34,7 +43,9 @@ export const DataTable = <TData, TValue>({
   data,
   inputPlaceholder,
   inputSearchColumn,
-  addButonValue
+  addButonValue,
+  dialogForm,
+  dialogTitle
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -61,13 +72,29 @@ export const DataTable = <TData, TValue>({
       <div className="flex items-center justify-between py-4">
         <Input
           placeholder={inputPlaceholder}
-          value={(table.getColumn(`${inputSearchColumn}`)?.getFilterValue() as string) ?? ""}
+          value={
+            (table
+              .getColumn(`${inputSearchColumn}`)
+              ?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
-            table.getColumn(`${inputSearchColumn}`)?.setFilterValue(event.target.value)
+            table
+              .getColumn(`${inputSearchColumn}`)
+              ?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        <Button>{addButonValue}</Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>{addButonValue}</Button>
+          </DialogTrigger>
+          <DialogContent aria-describedby={undefined}>
+            <DialogHeader>
+              <DialogTitle>{dialogTitle}</DialogTitle>
+            </DialogHeader>
+            {dialogForm}
+          </DialogContent>
+        </Dialog>
       </div>
       <div className="overflow-hidden rounded-md border">
         <Table>

@@ -10,10 +10,18 @@ import {
 import { Button } from "../ui/button";
 import { ArrowUpDown, MoreHorizontalIcon } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
-import {format} from "date-fns"
+import { format } from "date-fns";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import ProductsForm from "./ProductsForm";
 
 export const columns: ColumnDef<Product>[] = [
-    {
+  {
     id: "select",
     header: ({ table }) => (
       <Checkbox
@@ -45,13 +53,16 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "price",
-    header: ({column}) => {
-        return (
-            <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-                Precio
-                <ArrowUpDown className="h-4 w-4"/>
-            </Button>
-        )
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Precio
+          <ArrowUpDown className="h-4 w-4" />
+        </Button>
+      );
     },
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("price"));
@@ -75,18 +86,17 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: "createdAt",
     header: "Fecha de creación",
     cell: ({ row }) => {
-    const date = new Date(row.getValue("createdAt"));
-    return format(date, "dd/MM/yyyy HH:mm");
-  },
+      const date = new Date(row.getValue("createdAt"));
+      return format(date, "dd/MM/yyyy HH:mm");
+    },
   },
   {
     accessorKey: "updatedAt",
     header: "Ultima actualización",
     cell: ({ row }) => {
-    const date = new Date(row.getValue("createdAt"));
-    return format(date, "dd/MM/yyyy HH:mm");
-  }
-    
+      const date = new Date(row.getValue("createdAt"));
+      return format(date, "dd/MM/yyyy HH:mm");
+    },
   },
   {
     id: "actions",
@@ -94,19 +104,29 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const product = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => console.log(product.id)}>Editar</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => console.log(product.id)}>Eliminar</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontalIcon className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+              <DialogTrigger asChild>
+                <DropdownMenuItem>Editar</DropdownMenuItem>
+              </DialogTrigger>
+              <DropdownMenuItem onClick={() => console.log(product.id)}>Eliminar</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DialogContent aria-describedby={undefined}>
+            <DialogHeader>
+              <DialogTitle>Agregar Producto</DialogTitle>
+            </DialogHeader>
+            <ProductsForm product={product}/>
+          </DialogContent>
+        </Dialog>
       );
     },
   },

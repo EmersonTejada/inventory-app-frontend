@@ -11,6 +11,14 @@ import { MoreHorizontalIcon } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
 import type { Category } from "@/types/category";
 import { format } from "date-fns";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import CategoriesForm from "./CategoriesForm";
 
 export const columns: ColumnDef<Category>[] = [
   {
@@ -63,25 +71,33 @@ export const columns: ColumnDef<Category>[] = [
     id: "actions",
     header: "Acciones",
     cell: ({ row }) => {
-      const product = row.original;
+      const category = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => console.log(product.id)}>
-              Editar
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => console.log(product.id)}>
-              Eliminar
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Abrir menu</span>
+                <MoreHorizontalIcon className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+              <DialogTrigger asChild>
+                <DropdownMenuItem>Editar</DropdownMenuItem>
+              </DialogTrigger>
+              <DropdownMenuItem onClick={() => console.log(category.id)}>
+                Eliminar
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DialogContent aria-describedby={undefined}>
+            <DialogHeader>
+              <DialogTitle>Agregar Categoria</DialogTitle>
+            </DialogHeader>
+            <CategoriesForm category={category}/>
+          </DialogContent>
+        </Dialog>
       );
     },
   },

@@ -1,5 +1,6 @@
 import { columns } from "@/components/products/columns";
 import { DataTable } from "@/components/products/DataTable";
+import ProductsForm from "@/components/products/ProductsForm";
 const products = [
   {
     id: 1,
@@ -107,7 +108,15 @@ const Products = () => {
       <section className="space-y-4">
         <h1 className="text-2xl font-bold">Productos</h1>
 
-        <DataTable columns={columns} data={products} inputPlaceholder="Filtrar productos" inputSearchColumn="title" addButonValue="Agregar Producto"/>
+        <DataTable
+          columns={columns}
+          data={products}
+          inputPlaceholder="Filtrar productos"
+          inputSearchColumn="title"
+          addButonValue="Agregar Producto"
+          dialogForm={<ProductsForm />}
+          dialogTitle="Agregar Producto"
+        />
       </section>
     </>
   );

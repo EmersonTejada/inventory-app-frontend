@@ -22,7 +22,7 @@ const AppSidebar = () => {
                 <SidebarGroupLabel>Navegación</SidebarGroupLabel>
                 <SidebarGroupContent className="mt-2 flex flex-col gap-1">
                     {links.map(({to, label, icon}) => (
-                        <NavLink to={to} className={({isActive}) => `flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                        <NavLink key={label} to={to} className={({isActive}) => `flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     isActive
                       ? "bg-gray-900 text-white"
                       : "text-gray-700 hover:bg-gray-100"

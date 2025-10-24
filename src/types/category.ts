@@ -2,8 +2,8 @@ export interface Category {
     id: number
     name: string
     description?: string
-    createdAt: string,
-    updatedAt: string
+    createdAt?: string,
+    updatedAt?: string
 }
 
 export type NewCategory = Omit<Category, "id">
