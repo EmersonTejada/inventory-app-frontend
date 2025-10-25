@@ -58,3 +58,22 @@ export const updateCategory = async (updatedCategory: Partial<Category>)=> {
     throw error;
   }
 }
+
+export const deleteCategory = async (id: number) => {
+  try {
+    const res = await fetch(`${API_URL}/categories/delete/${id}`, {
+      method: "DELETE"
+    });
+    if (!res.ok) {
+      throw new Error(
+        `Ha habido un error al eliminar la categoria ${res.statusText}`
+      );
+    }
+    const { category } = await res.json();
+    return category;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
