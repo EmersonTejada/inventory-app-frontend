@@ -18,7 +18,6 @@ import {
 } from "../ui/select";
 import { Button } from "../ui/button";
 import { z } from "zod";
-import { categories } from "@/services/categoriesMock";
 import {
   InputGroup,
   InputGroupAddon,
@@ -28,11 +27,13 @@ import {
 } from "../ui/input-group";
 import { BoxIcon } from "lucide-react";
 import type { Product } from "@/types/product";
+import { useCategories } from "@/hooks/useCategories";
+import { useEffect } from "react";
 
 interface ProductsFormProps {
-  product?: Product
+  product?: Product;
 }
-const ProductsForm = ({product}: ProductsFormProps) => {
+const ProductsForm = ({ product }: ProductsFormProps) => {
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
     mode: "all",
@@ -49,6 +50,13 @@ const ProductsForm = ({product}: ProductsFormProps) => {
     console.log(data);
     form.reset();
   };
+
+  const { state, getCategories } = useCategories();
+  useEffect(() => {
+    if(state.categories.length === 0) {
+      getCategories()
+    }
+  }, [])
   return (
     <form id="products-form" onSubmit={form.handleSubmit(handleSubmit)}>
       <FieldGroup className="">
@@ -156,15 +164,15 @@ const ProductsForm = ({product}: ProductsFormProps) => {
               </FieldContent>
               <Select name={field.name} onValueChange={field.onChange}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Selecciona una categoria"/>
+                  <SelectValue placeholder="Selecciona una categoria" />
                 </SelectTrigger>
                 <SelectContent>
-                    {categories.map((c) => (
-                      <SelectItem key={c.id} value={c.name}>
-                        {c.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
+                  {state.categories.map((c) => (
+                    <SelectItem key={c.id} value={c.name}>
+                      {c.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
             </Field>
           )}

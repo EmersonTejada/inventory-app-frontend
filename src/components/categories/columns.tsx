@@ -20,6 +20,7 @@ import {
 } from "../ui/dialog";
 import CategoriesForm from "./CategoriesForm";
 
+
 export const columns: ColumnDef<Category>[] = [
   {
     id: "select",
@@ -86,7 +87,7 @@ export const columns: ColumnDef<Category>[] = [
               <DialogTrigger asChild>
                 <DropdownMenuItem>Editar</DropdownMenuItem>
               </DialogTrigger>
-              <DropdownMenuItem onClick={() => console.log(category.id)}>
+              <DropdownMenuItem>
                 Eliminar
               </DropdownMenuItem>
             </DropdownMenuContent>

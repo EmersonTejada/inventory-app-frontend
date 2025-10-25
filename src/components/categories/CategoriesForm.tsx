@@ -16,9 +16,10 @@ import {
   type CategoriesFormValues,
 } from "@/schemas/categories";
 import type { Category } from "@/types/category";
+import { useCategories } from "@/hooks/useCategories";
 
 interface CategoriesFormProps {
-  category?: Category;
+  category?: Partial<Category>;
 }
 const CategoriesForm = ({ category }: CategoriesFormProps) => {
   const form = useForm<CategoriesFormValues>({
@@ -30,9 +31,20 @@ const CategoriesForm = ({ category }: CategoriesFormProps) => {
     },
   });
 
-  const handleSubmit = async (category: z.infer<typeof categoriesSchema>) => {
-    console.log(category);
-    form.reset();
+  const { createCategory, updateCategory } = useCategories();
+
+  const handleSubmit = async (
+    newCategory: z.infer<typeof categoriesSchema>
+  ) => {
+    if (category?.id) {
+      updateCategory({ id: category?.id, ...newCategory });
+    } else {
+      createCategory(newCategory);
+    }
+    form.reset({
+      name: "",
+      description: ""
+    });
   };
   return (
     <form id="categories-form" onSubmit={form.handleSubmit(handleSubmit)}>

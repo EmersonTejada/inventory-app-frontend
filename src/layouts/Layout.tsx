@@ -1,5 +1,6 @@
 import AppSidebar from "@/components/layout/Sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import CategoryProvider from "@/context/CategoryProvider";
 import { Outlet } from "react-router";
 
 const Layout = () => {
@@ -9,7 +10,9 @@ const Layout = () => {
         <AppSidebar />
       <main className="flex-1 px-8 py-6">
         <SidebarTrigger />
-        <Outlet />
+        <CategoryProvider>
+          <Outlet />
+        </CategoryProvider>
       </main>
       </SidebarProvider>
     </div>
