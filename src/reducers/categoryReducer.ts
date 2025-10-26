@@ -20,14 +20,34 @@ export type CategoryActions =
   | { type: "setLoading"; payload: boolean }
   | { type: "setError"; payload: string | null };
 
-  export const categoryReducer = (state: CategoryState, action: CategoryActions): CategoryState => {
-    switch(action.type) {
-        case "setCategories": return {...state, categories: action.payload};
-        case "createCategory": return {...state, categories: [...state.categories, action.payload]};
-        case "updateCategory": return {...state, categories: state.categories.map((category) => category.id === action.payload.id ? action.payload : category)};
-        case "deleteCategory": return {...state, categories: state.categories.filter((category) => category.id !== action.payload)};
-        case "setError": return {...state, error: action.payload}
-        case "setLoading": return {...state, loading: action.payload}
-        default: return state
-    }
+export const categoryReducer = (
+  state: CategoryState,
+  action: CategoryActions
+): CategoryState => {
+  switch (action.type) {
+    case "setCategories":
+      return { ...state, categories: action.payload };
+    case "createCategory":
+      return { ...state, categories: [...state.categories, action.payload] };
+    case "updateCategory":
+      return {
+        ...state,
+        categories: state.categories.map((category) =>
+          category.id === action.payload.id ? action.payload : category
+        ),
+      };
+    case "deleteCategory":
+      return {
+        ...state,
+        categories: state.categories.filter(
+          (category) => category.id !== action.payload
+        ),
+      };
+    case "setError":
+      return { ...state, error: action.payload };
+    case "setLoading":
+      return { ...state, loading: action.payload };
+    default:
+      return state;
   }
+};
