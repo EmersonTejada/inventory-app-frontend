@@ -5,7 +5,7 @@ import { useCategories } from "@/hooks/useCategories";
 import { useEffect } from "react";
 
 const Categories = () => {
-  const { state, getCategories } = useCategories();
+  const { state, getCategories, deleteCategory } = useCategories();
 
   useEffect(() => {
     getCategories(); 
@@ -15,7 +15,7 @@ const Categories = () => {
       <h1 className="text-2xl font-bold">Categorias</h1>
 
       <DataTable
-        columns={columns}
+        columns={columns(deleteCategory)}
         data={state.categories}
         inputPlaceholder="Filtrar categorías"
         inputSearchColumn="name"

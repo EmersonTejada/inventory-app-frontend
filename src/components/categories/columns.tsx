@@ -21,7 +21,7 @@ import {
 import CategoriesForm from "./CategoriesForm";
 
 
-export const columns: ColumnDef<Category>[] = [
+export const columns = (onDelete: (id: number) => void): ColumnDef<Category>[] =>  [
   {
     id: "select",
     header: ({ table }) => (
@@ -87,7 +87,7 @@ export const columns: ColumnDef<Category>[] = [
               <DialogTrigger asChild>
                 <DropdownMenuItem>Editar</DropdownMenuItem>
               </DialogTrigger>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onDelete(category.id)}>
                 Eliminar
               </DropdownMenuItem>
             </DropdownMenuContent>
