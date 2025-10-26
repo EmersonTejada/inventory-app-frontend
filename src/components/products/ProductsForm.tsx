@@ -39,9 +39,9 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
     mode: "onChange",
     defaultValues: {
       title: product?.title ?? "",
-      price: product?.price ?? 0,
-      stock: product?.stock ?? 0,
-      categoryId: product?.categoryId ?? 0,
+      price: product?.price,
+      stock: product?.stock,
+      categoryId: product?.categoryId,
       description: product?.description ?? "",
     },
   });
@@ -89,10 +89,12 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
                   </InputGroupAddon>
                   <InputGroupInput
                     {...field}
-                    type="number"
                     id={field.name}
+                    type="number"
                     placeholder="0.00"
+                    min={0}
                     aria-invalid={fieldState.invalid}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </InputGroup>
                 {fieldState.invalid && (
@@ -114,9 +116,11 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
                   <InputGroupInput
                     {...field}
                     type="number"
+                    min={0}
                     id={field.name}
                     placeholder="0.00"
                     aria-invalid={fieldState.invalid}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </InputGroup>
                 {fieldState.invalid && (
@@ -137,8 +141,7 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
                   {...field}
                   id={field.name}
                   placeholder="Descripcion del producto"
-                  rows={6}
-                  className="min-h-24 resize-none"
+                  className="max-h-4"
                   aria-invalid={fieldState.invalid}
                 />
                 <InputGroupAddon align="block-end">
@@ -162,13 +165,13 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
                   <FieldError errors={[fieldState.error]} />
                 )}
               </FieldContent>
-              <Select name={field.name} onValueChange={field.onChange}>
+              <Select name={field.name}  value={field.value ? String(field.value) : ""} onValueChange={(value) => field.onChange(Number(value))}>
                 <SelectTrigger>
                   <SelectValue placeholder="Selecciona una categoria" />
                 </SelectTrigger>
                 <SelectContent>
                   {state.categories.map((c) => (
-                    <SelectItem key={c.id} value={c.name}>
+                    <SelectItem key={c.id} value={String(c.id)}>
                       {c.name}
                     </SelectItem>
                   ))}
