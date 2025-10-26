@@ -24,7 +24,7 @@ interface CategoriesFormProps {
 const CategoriesForm = ({ category }: CategoriesFormProps) => {
   const form = useForm<CategoriesFormValues>({
     resolver: zodResolver(categoriesSchema),
-    mode: "all",
+    mode: "onChange",
     defaultValues: {
       name: category?.name ?? "",
       description: category?.description ?? "",

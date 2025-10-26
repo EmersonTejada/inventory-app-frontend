@@ -36,7 +36,7 @@ interface ProductsFormProps {
 const ProductsForm = ({ product }: ProductsFormProps) => {
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
-    mode: "all",
+    mode: "onChange",
     defaultValues: {
       title: product?.title ?? "",
       price: product?.price ?? 0,
