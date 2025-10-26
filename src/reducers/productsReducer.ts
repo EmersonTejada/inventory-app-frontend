@@ -4,12 +4,14 @@ export interface ProductState {
   products: Product[];
   loading: boolean;
   error: string | null;
+  isLoaded: boolean;
 }
 
 export const initialProductState: ProductState = {
   products: [],
   loading: false,
   error: null,
+  isLoaded: false,
 };
 
 export type ProductsAction =
@@ -18,7 +20,8 @@ export type ProductsAction =
   | { type: "updateProduct"; payload: Product }
   | { type: "deleteProduct"; payload: number }
   | { type: "setLoading"; payload: boolean }
-  | { type: "setError"; payload: string | null };
+  | { type: "setError"; payload: string | null }
+  | { type: "setLoaded"; payload: boolean };
 
 export const productsReducer = (
   state: ProductState,
@@ -47,6 +50,7 @@ export const productsReducer = (
       return { ...state, error: action.payload };
     case "setLoading":
       return { ...state, loading: action.payload };
+      case "setLoaded": return {...state, isLoaded: action.payload}
     default:
       return state;
   }

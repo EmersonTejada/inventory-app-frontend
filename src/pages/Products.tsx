@@ -9,8 +9,10 @@ const Products = () => {
   const { state, getProducts } = useProducts();
 
   useEffect(() => {
-    getProducts();
-  }, []);
+    if (!state.isLoaded && !state.loading && !state.error) {
+      getProducts();
+    }
+  }, [state.isLoaded, state.loading, state.error, getProducts]);
   return (
     <>
       <section className="space-y-4">
