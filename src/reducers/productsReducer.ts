@@ -1,4 +1,4 @@
-import type { Product } from "@/types/product";
+import type { NewProduct, Product } from "@/types/product";
 
 export interface ProductState {
   products: Product[];
@@ -16,7 +16,7 @@ export const initialProductState: ProductState = {
 
 export type ProductsAction =
   | { type: "setProducts"; payload: Product[] }
-  | { type: "createProduct"; payload: Product }
+  | { type: "createProduct"; payload: NewProduct }
   | { type: "updateProduct"; payload: Product }
   | { type: "deleteProduct"; payload: number }
   | { type: "setLoading"; payload: boolean }

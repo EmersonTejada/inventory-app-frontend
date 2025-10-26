@@ -7,8 +7,8 @@ export const productSchema = z.object({
   description: z
     .string()
     .max(100, "La descripcion debe tener maximo 100 caracteres"),
-  price: z.number().min(0, "El precio debe ser 0 o mayor"),
-  stock: z.number().int().min(0, "El stock debe ser un numero entero"),
+  price: z.coerce.number<number>("El precio debe ser un numero").min(0, "El precio debe ser 0 o mayor"),
+  stock: z.coerce.number<number>("El stock debe ser un numero").int().min(0, "El stock debe ser un numero entero"),
   categoryId: z.number().int().min(0, "Selecciona una categoria"),
 });
 

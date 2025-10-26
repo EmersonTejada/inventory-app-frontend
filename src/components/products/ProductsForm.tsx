@@ -29,25 +29,29 @@ import { BoxIcon } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCategories } from "@/hooks/useCategories";
 import { useEffect } from "react";
+import { useProducts } from "@/hooks/useProducts";
 
 interface ProductsFormProps {
   product?: Product;
 }
 const ProductsForm = ({ product }: ProductsFormProps) => {
+
+  const { createProduct } = useProducts()
+
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
     mode: "onChange",
     defaultValues: {
       title: product?.title ?? "",
-      price: product?.price,
-      stock: product?.stock,
+      price: product?.price ?? 0,
+      stock: product?.stock ?? 0,
       categoryId: product?.categoryId,
       description: product?.description ?? "",
     },
   });
 
   const handleSubmit = async (data: z.infer<typeof productSchema>) => {
-    console.log(data);
+    createProduct(data)
     form.reset();
   };
 
@@ -94,7 +98,8 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
                     placeholder="0.00"
                     min={0}
                     aria-invalid={fieldState.invalid}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    
+                    
                   />
                 </InputGroup>
                 {fieldState.invalid && (
@@ -120,7 +125,6 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
                     id={field.name}
                     placeholder="0.00"
                     aria-invalid={fieldState.invalid}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </InputGroup>
                 {fieldState.invalid && (

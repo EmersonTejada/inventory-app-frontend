@@ -1,3 +1,5 @@
+import type { NewProduct, Product } from "@/types/product";
+
 export const products = [
   {
     id: 1,
@@ -99,3 +101,14 @@ export const products = [
     updatedAt: "2025-10-21T11:41:59.647Z",
   },
 ];
+
+export const createProduct = (product: NewProduct): Product => {
+    const now = new Date().toISOString()
+    return {
+        id: Math.floor(Math.random() * 1000),
+        ...product,
+        createdAt: now,
+        updatedAt: now
+
+    }
+}
