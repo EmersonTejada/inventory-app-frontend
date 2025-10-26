@@ -4,7 +4,6 @@ import {
   initialProductState,
   productsReducer,
 } from "@/reducers/productsReducer";
-import { products } from "@/services/productsService";
 import { getErrorMessage } from "@/helpers/getErrorMessage";
 import type { NewProduct } from "@/types/product";
 import * as productServices from "../services/productsService"
@@ -19,7 +18,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
   const getProducts = useCallback(async () => {
     try {
       dispatch({ type: "setLoading", payload: true });
-      const newproducts = await products;
+      const newproducts = await productServices.getProducts()
       dispatch({ type: "setProducts", payload: newproducts });
       dispatch({ type: "setLoaded", payload: true });
     } catch (err) {

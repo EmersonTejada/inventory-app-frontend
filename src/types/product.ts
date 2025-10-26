@@ -5,8 +5,8 @@ export interface Product {
     price: number
     stock: number
     categoryId: number
-    createdAt: string,
-    updatedAt: string
+    createdAt?: string,
+    updatedAt?: string
 }
 
 export type NewProduct = Omit<Product, "id">
