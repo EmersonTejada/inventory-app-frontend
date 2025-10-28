@@ -22,7 +22,7 @@ export type ProductsAction =
   | { type: "setProducts"; payload: Product[] }
   | { type: "createProduct"; payload: Product }
   | { type: "updateProduct"; payload: Product }
-  | { type: "deleteProduct"; payload: number }
+  | { type: "deleteProduct"; payload: Product }
   | { type: "setLoading"; payload: boolean }
   | { type: "setError"; payload: string | null }
   | { type: "setLoaded"; payload: boolean }
@@ -49,7 +49,7 @@ export const productsReducer = (
       return {
         ...state,
         products: state.products.filter(
-          (product) => product.id !== action.payload
+          (product) => product.id !== action.payload.id
         ),
       };
     case "setError":

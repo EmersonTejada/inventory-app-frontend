@@ -18,8 +18,8 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
   const getProducts = useCallback(async () => {
     try {
       dispatch({ type: "setLoading", payload: true });
-      const newproducts = await productServices.getProducts();
-      dispatch({ type: "setProducts", payload: newproducts });
+      const products = await productServices.getProducts();
+      dispatch({ type: "setProducts", payload: products });
       dispatch({ type: "setLoaded", payload: true });
     } catch (err) {
       if (err instanceof Error) {
@@ -36,6 +36,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
     try {
       dispatch({ type: "setLoading", payload: true });
       const newProduct = await productServices.createProduct(product);
+      console.log(newProduct)
       dispatch({ type: "createProduct", payload: newProduct });
     } catch (err) {
       dispatch({ type: "setError", payload: getErrorMessage(err) });
@@ -47,7 +48,8 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
   const updateProduct = async (product: Product) => {
     try {
       dispatch({ type: "setLoading", payload: true });
-      dispatch({ type: "updateProduct", payload: product });
+      const updatedProduct = await productServices.updateProduct(product)
+      dispatch({ type: "updateProduct", payload: updatedProduct });
     } catch (err) {
       dispatch({ type: "setError", payload: getErrorMessage(err) });
     } finally {
@@ -56,10 +58,11 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
     }
   };
 
-  const deleteProduct = async (productId: number) => {
+  const deleteProduct = async (product: Product) => {
     try {
       dispatch({ type: "setLoading", payload: true });
-      dispatch({ type: "deleteProduct", payload: productId });
+      const deletedProduct = await productServices.deleteProduct(product)
+      dispatch({ type: "deleteProduct", payload: deletedProduct });
     } catch (err) {
       dispatch({ type: "setError", payload: getErrorMessage(err) });
     } finally {

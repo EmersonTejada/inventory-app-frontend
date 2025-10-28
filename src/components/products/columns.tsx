@@ -14,7 +14,7 @@ import { format } from "date-fns";
 import type { ProductsAction } from "@/reducers/productsReducer";
 
 export const columns = (
-  onDelete: (id: number) => void,
+  onDelete: (product: Product) => void,
   dispatch: React.Dispatch<ProductsAction>
 ): ColumnDef<Product>[] => [
   {
@@ -113,7 +113,7 @@ export const columns = (
               dispatch({ type: "setSelectedProduct", payload: product });
               dispatch({ type: "setDialogOpen", payload: true });
             }}>Editar</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onDelete(product.id)}>
+            <DropdownMenuItem onClick={() => onDelete(product)}>
               Eliminar
             </DropdownMenuItem>
           </DropdownMenuContent>

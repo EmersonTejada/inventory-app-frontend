@@ -7,7 +7,7 @@ interface ProductContext {
   getProducts: () => void;
   createProduct: (product: NewProduct) => void;
  updateProduct: (product: Product) => void;
-  deleteProduct: (id: number) => void
+  deleteProduct: (product: Product) => void;
   dispatch: React.Dispatch<ProductsAction>;
 }
 
