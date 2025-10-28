@@ -5,14 +5,15 @@ const API_URL = import.meta.env.VITE_API_URL;
 export const getCategories = async (): Promise<Category[]> => {
   try {
     const res = await fetch(`${API_URL}/categories`);
+    const data = await res.json();
 
     if (!res.ok) {
       throw new Error(
-        `Ha habido un error al obtener las categorias: ${res.statusText}`
+        `Ha habido un error al obtener las categorias: ${data.message}`
       );
     }
-    const { categories } = await res.json();
-    return categories;
+    
+    return data.categories;
   } catch (error) {
     console.error(error);
     throw error;
