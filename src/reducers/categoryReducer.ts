@@ -5,6 +5,8 @@ export interface CategoryState {
   loading: boolean;
   error: string | null;
   isLoaded: boolean;
+  selectedProduct: Category | null;
+  dialogOpen: boolean;
 }
 
 export const initialCategoryState: CategoryState = {
@@ -12,6 +14,8 @@ export const initialCategoryState: CategoryState = {
   loading: false,
   error: null,
   isLoaded: false,
+  selectedProduct: null,
+  dialogOpen: false,
 };
 
 export type CategoryActions =
@@ -21,7 +25,9 @@ export type CategoryActions =
   | { type: "deleteCategory"; payload: number }
   | { type: "setLoading"; payload: boolean }
   | { type: "setError"; payload: string | null }
-  | { type: "setLoaded"; payload: boolean };
+  | { type: "setLoaded"; payload: boolean }
+  | { type: "setSelectedProduct"; payload: Category | null }
+  | { type: "setDialogOpen"; payload: boolean };
 
 export const categoryReducer = (
   state: CategoryState,
@@ -52,6 +58,10 @@ export const categoryReducer = (
       return { ...state, loading: action.payload };
     case "setLoaded":
       return { ...state, isLoaded: action.payload };
+    case "setSelectedProduct":
+      return { ...state, selectedProduct: action.payload };
+    case "setDialogOpen":
+      return { ...state, dialogOpen: action.payload };
     default:
       return state;
   }

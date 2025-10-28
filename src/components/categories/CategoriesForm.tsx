@@ -31,20 +31,18 @@ const CategoriesForm = ({ category }: CategoriesFormProps) => {
     },
   });
 
-  const { createCategory, updateCategory } = useCategories();
+  const { createCategory, updateCategory, dispatch } = useCategories();
 
   const handleSubmit = async (
     newCategory: z.infer<typeof categoriesSchema>
   ) => {
     if (category?.id) {
       updateCategory({ id: category?.id, ...newCategory });
+      
     } else {
       createCategory(newCategory);
     }
-    form.reset({
-      name: "",
-      description: ""
-    });
+    dispatch({ type: "setDialogOpen", payload: false });
   };
   return (
     <form id="categories-form" onSubmit={form.handleSubmit(handleSubmit)}>

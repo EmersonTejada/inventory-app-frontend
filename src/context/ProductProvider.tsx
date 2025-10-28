@@ -40,7 +40,6 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
     } catch (err) {
       dispatch({ type: "setError", payload: getErrorMessage(err) });
     } finally {
-      dispatch({ type: "setDialogOpen", payload: false });
       dispatch({ type: "setLoading", payload: false });
     }
   };
@@ -52,7 +51,6 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
     } catch (err) {
       dispatch({ type: "setError", payload: getErrorMessage(err) });
     } finally {
-      dispatch({ type: "setDialogOpen", payload: false });
       dispatch({ type: "setSelectedProduct", payload: null });
       dispatch({ type: "setLoading", payload: false });
     }

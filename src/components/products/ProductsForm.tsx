@@ -35,7 +35,7 @@ interface ProductsFormProps {
   product?: Product;
 }
 const ProductsForm = ({ product }: ProductsFormProps) => {
-  const { createProduct, updateProduct } = useProducts();
+  const { createProduct, updateProduct, dispatch} = useProducts();
 
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
@@ -59,6 +59,7 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
     } else {
       createProduct(newProduct);
     }
+    dispatch({ type: "setDialogOpen", payload: false });
   };
 
   const { state, getCategories } = useCategories();
@@ -66,7 +67,7 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
     if (state.categories.length === 0) {
       getCategories();
     }
-  }, []);
+  }, [getCategories, state.categories.length]);
   return (
     <form id="products-form" onSubmit={form.handleSubmit(handleSubmit)}>
       <FieldGroup className="">

@@ -1,6 +1,9 @@
-import type { CategoryState } from "@/reducers/categoryReducer";
+import type {
+  CategoryActions,
+  CategoryState,
+} from "@/reducers/categoryReducer";
 import type { Category, NewCategory } from "@/types/category";
-import { createContext } from "react";
+import React, { createContext } from "react";
 
 interface CategoryContext {
   state: CategoryState;
@@ -8,6 +11,7 @@ interface CategoryContext {
   createCategory: (category: NewCategory) => void;
   updateCategory: (category: Partial<Category>) => void;
   deleteCategory: (id: number) => void;
+  dispatch: React.Dispatch<CategoryActions>;
 }
 
 export const CategoryContext = createContext<CategoryContext | undefined>(

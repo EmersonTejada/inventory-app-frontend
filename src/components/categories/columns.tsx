@@ -11,17 +11,13 @@ import { MoreHorizontalIcon } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
 import type { Category } from "@/types/category";
 import { format } from "date-fns";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
-import CategoriesForm from "./CategoriesForm";
+import type React from "react";
+import type { CategoryActions } from "@/reducers/categoryReducer";
 
-
-export const columns = (onDelete: (id: number) => void): ColumnDef<Category>[] =>  [
+export const columns = (
+  onDelete: (id: number) => void,
+  dispatch: React.Dispatch<CategoryActions>
+): ColumnDef<Category>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -74,31 +70,24 @@ export const columns = (onDelete: (id: number) => void): ColumnDef<Category>[] =
     cell: ({ row }) => {
       const category = row.original;
       return (
-        <Dialog>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Abrir menu</span>
-                <MoreHorizontalIcon className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-              <DialogTrigger asChild>
-                <DropdownMenuItem>Editar</DropdownMenuItem>
-              </DialogTrigger>
-              <DropdownMenuItem onClick={() => onDelete(category.id)}>
-                Eliminar
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DialogContent aria-describedby={undefined}>
-            <DialogHeader>
-              <DialogTitle>Agregar Categoria</DialogTitle>
-            </DialogHeader>
-            <CategoriesForm category={category}/>
-          </DialogContent>
-        </Dialog>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Abrir menu</span>
+              <MoreHorizontalIcon className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => {
+              dispatch({ type: "setSelectedProduct", payload: category})
+              dispatch({ type: "setDialogOpen", payload: true });
+            }}>Editar</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onDelete(category.id)}>
+              Eliminar
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     },
   },

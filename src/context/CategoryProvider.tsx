@@ -58,6 +58,7 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
         dispatch({ type: "setError", payload: "Error desconocido" });
       }
     } finally {
+      dispatch({ type: "setSelectedProduct", payload: null });
       dispatch({ type: "setLoading", payload: false });
     }
   };
@@ -85,6 +86,7 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
         createCategory,
         updateCategory,
         deleteCategory,
+        dispatch,
       }}
     >
       {children}

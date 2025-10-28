@@ -1,15 +1,21 @@
 import CategoriesForm from "@/components/categories/CategoriesForm";
 import { columns } from "@/components/categories/columns";
 import { DataTable } from "@/components/products/DataTable";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
 import { useCategories } from "@/hooks/useCategories";
 import { useEffect } from "react";
 
 const Categories = () => {
-  const { state, getCategories, deleteCategory } = useCategories();
+  const { state, getCategories, deleteCategory, dispatch } = useCategories();
 
   useEffect(() => {
-    if(!state.isLoaded && !state.loading && !state.error) {
+    if (!state.isLoaded && !state.loading && !state.error) {
       getCategories();
     }
   }, [state.isLoaded, state.loading, state.error, getCategories]);
@@ -23,18 +29,39 @@ const Categories = () => {
         </div>
       )}
       {state.loading ? (
-        <div className="flex justify-center items-center min-h-[60vh]">{<Spinner />}</div>
+        <div className="flex justify-center items-center min-h-[60vh]">
+          {<Spinner />}
+        </div>
       ) : (
         <DataTable
-          columns={columns(deleteCategory)}
+          columns={columns(deleteCategory, dispatch)}
           data={state.categories}
           inputPlaceholder="Filtrar categorías"
           inputSearchColumn="name"
           addButonValue="Agregar Categoria"
-          dialogForm={<CategoriesForm />}
-          dialogTitle="Agregar Categoria"
+          onAddButtonClick={() => {
+            dispatch({type: "setDialogOpen", payload: true})
+          }}
         />
       )}
+      <Dialog
+        open={state.dialogOpen}
+        onOpenChange={(open) => {
+          dispatch({ type: "setDialogOpen", payload: open });
+          if (!open) {
+            dispatch({ type: "setSelectedProduct", payload: null });
+          }
+        }}
+      >
+        <DialogContent aria-describedby={undefined}>
+          <DialogHeader>
+            <DialogTitle>
+              {state.selectedProduct ? "Editar producto" : "Agregar producto"}
+            </DialogTitle>
+          </DialogHeader>
+          <CategoriesForm category={state.selectedProduct ?? undefined} />
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
