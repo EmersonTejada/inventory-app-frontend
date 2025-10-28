@@ -9,8 +9,10 @@ const Categories = () => {
   const { state, getCategories, deleteCategory } = useCategories();
 
   useEffect(() => {
-    getCategories();
-  }, []);
+    if(!state.isLoaded && !state.loading && !state.error) {
+      getCategories();
+    }
+  }, [state.isLoaded, state.loading, state.error, getCategories]);
   return (
     <section className="space-y-4">
       <h1 className="text-2xl font-bold">Categorias</h1>

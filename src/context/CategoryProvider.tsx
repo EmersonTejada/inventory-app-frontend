@@ -1,4 +1,4 @@
-import { useReducer, type ReactNode } from "react";
+import { useCallback, useReducer, type ReactNode } from "react";
 import { CategoryContext } from "./CategoryContext";
 import {
   categoryReducer,
@@ -13,11 +13,12 @@ interface CategoryProviderProps {
 export const CategoryProvider = ({ children }: CategoryProviderProps) => {
   const [state, dispatch] = useReducer(categoryReducer, initialCategoryState);
 
-  const getCategories = async () => {
+  const getCategories = useCallback(async () => {
     try {
       dispatch({ type: "setLoading", payload: true });
       const categories = await categoriesService.getCategories();
       dispatch({ type: "setCategories", payload: categories });
+      dispatch({ type: "setLoaded", payload: true });
     } catch (err) {
       if (err instanceof Error) {
         dispatch({ type: "setError", payload: err.message });
@@ -27,7 +28,7 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
     } finally {
       dispatch({ type: "setLoading", payload: false });
     }
-  };
+  }, []);
 
   const createCategory = async (category: NewCategory) => {
     try {
@@ -47,9 +48,9 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
 
   const updateCategory = async (category: Partial<Category>) => {
     try {
-        dispatch({ type: "setLoading", payload: true });
-        const updatedCategory = await categoriesService.updateCategory(category);
-        dispatch({ type: "updateCategory", payload: updatedCategory });
+      dispatch({ type: "setLoading", payload: true });
+      const updatedCategory = await categoriesService.updateCategory(category);
+      dispatch({ type: "updateCategory", payload: updatedCategory });
     } catch (err) {
       if (err instanceof Error) {
         dispatch({ type: "setError", payload: err.message });
@@ -63,9 +64,9 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
 
   const deleteCategory = async (id: number) => {
     try {
-        dispatch({ type: "setLoading", payload: true });
-        await categoriesService.deleteCategory(id)
-        dispatch({ type: "deleteCategory", payload: id });
+      dispatch({ type: "setLoading", payload: true });
+      await categoriesService.deleteCategory(id);
+      dispatch({ type: "deleteCategory", payload: id });
     } catch (err) {
       if (err instanceof Error) {
         dispatch({ type: "setError", payload: err.message });
@@ -75,9 +76,17 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
     } finally {
       dispatch({ type: "setLoading", payload: false });
     }
-  }
+  };
   return (
-    <CategoryContext value={{ state, getCategories, createCategory, updateCategory, deleteCategory }}>
+    <CategoryContext
+      value={{
+        state,
+        getCategories,
+        createCategory,
+        updateCategory,
+        deleteCategory,
+      }}
+    >
       {children}
     </CategoryContext>
   );

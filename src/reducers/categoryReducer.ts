@@ -4,12 +4,14 @@ export interface CategoryState {
   categories: Category[];
   loading: boolean;
   error: string | null;
+  isLoaded: boolean;
 }
 
 export const initialCategoryState: CategoryState = {
   categories: [],
   loading: false,
   error: null,
+  isLoaded: false,
 };
 
 export type CategoryActions =
@@ -18,7 +20,8 @@ export type CategoryActions =
   | { type: "updateCategory"; payload: Category }
   | { type: "deleteCategory"; payload: number }
   | { type: "setLoading"; payload: boolean }
-  | { type: "setError"; payload: string | null };
+  | { type: "setError"; payload: string | null }
+  | { type: "setLoaded"; payload: boolean };
 
 export const categoryReducer = (
   state: CategoryState,
@@ -47,6 +50,8 @@ export const categoryReducer = (
       return { ...state, error: action.payload };
     case "setLoading":
       return { ...state, loading: action.payload };
+    case "setLoaded":
+      return { ...state, isLoaded: action.payload };
     default:
       return state;
   }
