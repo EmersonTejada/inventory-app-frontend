@@ -1,10 +1,12 @@
-import type { NewProduct, Product } from "@/types/product";
+import type { Product } from "@/types/product";
 
 export interface ProductState {
   products: Product[];
   loading: boolean;
   error: string | null;
   isLoaded: boolean;
+  dialogOpen: boolean
+  selectedProduct: Product | null;
 }
 
 export const initialProductState: ProductState = {
@@ -12,16 +14,20 @@ export const initialProductState: ProductState = {
   loading: false,
   error: null,
   isLoaded: false,
+  dialogOpen: false,
+  selectedProduct: null,
 };
 
 export type ProductsAction =
   | { type: "setProducts"; payload: Product[] }
-  | { type: "createProduct"; payload: NewProduct }
+  | { type: "createProduct"; payload: Product }
   | { type: "updateProduct"; payload: Product }
   | { type: "deleteProduct"; payload: number }
   | { type: "setLoading"; payload: boolean }
   | { type: "setError"; payload: string | null }
-  | { type: "setLoaded"; payload: boolean };
+  | { type: "setLoaded"; payload: boolean }
+  | { type: "setDialogOpen"; payload: boolean }
+  | { type: "setSelectedProduct"; payload: Product | null };
 
 export const productsReducer = (
   state: ProductState,
@@ -50,7 +56,12 @@ export const productsReducer = (
       return { ...state, error: action.payload };
     case "setLoading":
       return { ...state, loading: action.payload };
-      case "setLoaded": return {...state, isLoaded: action.payload}
+    case "setLoaded":
+      return { ...state, isLoaded: action.payload };
+    case "setDialogOpen":
+      return { ...state, dialogOpen: action.payload };
+    case "setSelectedProduct":
+      return { ...state, selectedProduct: action.payload };
     default:
       return state;
   }

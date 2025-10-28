@@ -35,8 +35,7 @@ interface ProductsFormProps {
   product?: Product;
 }
 const ProductsForm = ({ product }: ProductsFormProps) => {
-
-  const { createProduct } = useProducts()
+  const { createProduct, updateProduct } = useProducts();
 
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
@@ -50,17 +49,24 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
     },
   });
 
-  const handleSubmit = async (data: z.infer<typeof productSchema>) => {
-    createProduct(data)
-    form.reset();
+  const handleSubmit = async (newProduct: z.infer<typeof productSchema>) => {
+    if (product?.id) {
+      updateProduct({
+        id: product.id,
+        createdAt: product.createdAt,
+        ...newProduct,
+      });
+    } else {
+      createProduct(newProduct);
+    }
   };
 
   const { state, getCategories } = useCategories();
   useEffect(() => {
-    if(state.categories.length === 0) {
-      getCategories()
+    if (state.categories.length === 0) {
+      getCategories();
     }
-  }, [])
+  }, []);
   return (
     <form id="products-form" onSubmit={form.handleSubmit(handleSubmit)}>
       <FieldGroup className="">
@@ -98,8 +104,6 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
                     placeholder="0.00"
                     min={0}
                     aria-invalid={fieldState.invalid}
-                    
-                    
                   />
                 </InputGroup>
                 {fieldState.invalid && (
@@ -169,7 +173,11 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
                   <FieldError errors={[fieldState.error]} />
                 )}
               </FieldContent>
-              <Select name={field.name}  value={field.value ? String(field.value) : ""} onValueChange={(value) => field.onChange(Number(value))}>
+              <Select
+                name={field.name}
+                value={field.value ? String(field.value) : ""}
+                onValueChange={(value) => field.onChange(Number(value))}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Selecciona una categoria" />
                 </SelectTrigger>

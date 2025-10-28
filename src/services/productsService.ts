@@ -14,3 +14,15 @@ export const createProduct = (product: NewProduct): Product => {
 
     }
 }
+
+export const updateProduct = (product: Product): Product => {
+    const now = new Date().toISOString()
+    return {
+        ...product,
+        updatedAt: now
+    }
+}
+
+export const deleteProduct = (productId: number): boolean => {
+    return true
+}

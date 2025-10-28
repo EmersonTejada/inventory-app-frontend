@@ -5,8 +5,8 @@ import {
   productsReducer,
 } from "@/reducers/productsReducer";
 import { getErrorMessage } from "@/helpers/getErrorMessage";
-import type { NewProduct } from "@/types/product";
-import * as productServices from "../services/productsService"
+import type { NewProduct, Product } from "@/types/product";
+import * as productServices from "../services/productsService";
 
 interface ProductProviderProps {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
   const getProducts = useCallback(async () => {
     try {
       dispatch({ type: "setLoading", payload: true });
-      const newproducts = await productServices.getProducts()
+      const newproducts = await productServices.getProducts();
       dispatch({ type: "setProducts", payload: newproducts });
       dispatch({ type: "setLoaded", payload: true });
     } catch (err) {
@@ -34,16 +34,52 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
 
   const createProduct = async (product: NewProduct) => {
     try {
-        dispatch({type: "setLoading", payload: true})
-        const newProduct = productServices.createProduct(product)
-        dispatch({type: "createProduct", payload: newProduct})
+      dispatch({ type: "setLoading", payload: true });
+      const newProduct = await productServices.createProduct(product);
+      dispatch({ type: "createProduct", payload: newProduct });
     } catch (err) {
       dispatch({ type: "setError", payload: getErrorMessage(err) });
     } finally {
-        dispatch({type: "setLoading", payload: false})
+      dispatch({ type: "setDialogOpen", payload: false });
+      dispatch({ type: "setLoading", payload: false });
+    }
+  };
+
+  const updateProduct = async (product: Product) => {
+    try {
+      dispatch({ type: "setLoading", payload: true });
+      dispatch({ type: "updateProduct", payload: product });
+    } catch (err) {
+      dispatch({ type: "setError", payload: getErrorMessage(err) });
+    } finally {
+      dispatch({ type: "setDialogOpen", payload: false });
+      dispatch({ type: "setSelectedProduct", payload: null });
+      dispatch({ type: "setLoading", payload: false });
+    }
+  };
+
+  const deleteProduct = async (productId: number) => {
+    try {
+      dispatch({ type: "setLoading", payload: true });
+      dispatch({ type: "deleteProduct", payload: productId });
+    } catch (err) {
+      dispatch({ type: "setError", payload: getErrorMessage(err) });
+    } finally {
+      dispatch({ type: "setLoading", payload: false });
     }
   };
   return (
-    <ProductContext value={{ state, getProducts, createProduct }}>{children}</ProductContext>
+    <ProductContext
+      value={{
+        state,
+        getProducts,
+        createProduct,
+        updateProduct,
+        deleteProduct,
+        dispatch,
+      }}
+    >
+      {children}
+    </ProductContext>
   );
 };

@@ -1,12 +1,18 @@
 import { columns } from "@/components/products/columns";
 import { DataTable } from "@/components/products/DataTable";
 import ProductsForm from "@/components/products/ProductsForm";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
 import { useProducts } from "@/hooks/useProducts";
 import { useEffect } from "react";
 
 const Products = () => {
-  const { state, getProducts } = useProducts();
+  const { state, getProducts, deleteProduct, dispatch } = useProducts();
 
   useEffect(() => {
     if (!state.isLoaded && !state.loading && !state.error) {
@@ -28,15 +34,34 @@ const Products = () => {
           </div>
         ) : (
           <DataTable
-            columns={columns}
+            columns={columns(deleteProduct, dispatch)}
             data={state.products}
             inputPlaceholder="Filtrar productos"
             inputSearchColumn="title"
             addButonValue="Agregar Producto"
-            dialogForm={<ProductsForm />}
-            dialogTitle="Agregar Producto"
+            onAddButtonClick={() => {
+              dispatch({ type: "setDialogOpen", payload: true });
+            }}
           />
         )}
+        <Dialog
+          open={state.dialogOpen}
+          onOpenChange={(open) => {
+            dispatch({ type: "setDialogOpen", payload: open });
+            if (!open) {
+              dispatch({ type: "setSelectedProduct", payload: null });
+            }
+          }}
+        >
+          <DialogContent aria-describedby={undefined}>
+            <DialogHeader>
+              <DialogTitle>
+                {state.selectedProduct ? "Editar producto" : "Agregar producto"}
+              </DialogTitle>
+            </DialogHeader>
+            <ProductsForm product={state.selectedProduct ?? undefined} />
+          </DialogContent>
+        </Dialog>
       </section>
     </>
   );

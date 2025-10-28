@@ -11,16 +11,12 @@ import { Button } from "../ui/button";
 import { ArrowUpDown, MoreHorizontalIcon } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
 import { format } from "date-fns";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
-import ProductsForm from "./ProductsForm";
+import type { ProductsAction } from "@/reducers/productsReducer";
 
-export const columns: ColumnDef<Product>[] = [
+export const columns = (
+  onDelete: (id: number) => void,
+  dispatch: React.Dispatch<ProductsAction>
+): ColumnDef<Product>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -104,29 +100,24 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const product = row.original;
       return (
-        <Dialog>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontalIcon className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-              <DialogTrigger asChild>
-                <DropdownMenuItem>Editar</DropdownMenuItem>
-              </DialogTrigger>
-              <DropdownMenuItem onClick={() => console.log(product.id)}>Eliminar</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DialogContent aria-describedby={undefined}>
-            <DialogHeader>
-              <DialogTitle>Agregar Producto</DialogTitle>
-            </DialogHeader>
-            <ProductsForm product={product}/>
-          </DialogContent>
-        </Dialog>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Abrir menu</span>
+              <MoreHorizontalIcon className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => {
+              dispatch({ type: "setSelectedProduct", payload: product });
+              dispatch({ type: "setDialogOpen", payload: true });
+            }}>Editar</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onDelete(product.id)}>
+              Eliminar
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     },
   },

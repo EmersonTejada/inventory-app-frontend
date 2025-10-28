@@ -18,15 +18,8 @@ import {
   TableRow,
 } from "../ui/table";
 import { Button } from "../ui/button";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Input } from "../ui/input";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -34,8 +27,7 @@ interface DataTableProps<TData, TValue> {
   inputPlaceholder: string;
   inputSearchColumn: string;
   addButonValue: string;
-  dialogTitle: string
-  dialogForm: React.ReactNode;
+  onAddButtonClick: () => void;
 }
 
 export const DataTable = <TData, TValue>({
@@ -44,8 +36,7 @@ export const DataTable = <TData, TValue>({
   inputPlaceholder,
   inputSearchColumn,
   addButonValue,
-  dialogForm,
-  dialogTitle
+  onAddButtonClick,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -84,17 +75,7 @@ export const DataTable = <TData, TValue>({
           }
           className="max-w-sm"
         />
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>{addButonValue}</Button>
-          </DialogTrigger>
-          <DialogContent aria-describedby={undefined}>
-            <DialogHeader>
-              <DialogTitle>{dialogTitle}</DialogTitle>
-            </DialogHeader>
-            {dialogForm}
-          </DialogContent>
-        </Dialog>
+        <Button onClick={onAddButtonClick}>{addButonValue}</Button>
       </div>
       <div className="overflow-hidden rounded-md border">
         <Table>
