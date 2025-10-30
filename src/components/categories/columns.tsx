@@ -80,7 +80,7 @@ export const columns = (
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Acciones</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => {
-              dispatch({ type: "setSelectedProduct", payload: category})
+              dispatch({ type: "setSelectedCategory", payload: category})
               dispatch({ type: "setDialogOpen", payload: true });
             }}>Editar</DropdownMenuItem>
             <DropdownMenuItem onClick={() => onDelete(category.id)}>

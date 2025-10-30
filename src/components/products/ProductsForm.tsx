@@ -35,7 +35,7 @@ interface ProductsFormProps {
   product?: Product;
 }
 const ProductsForm = ({ product }: ProductsFormProps) => {
-  const { createProduct, updateProduct, dispatch} = useProducts();
+  const { createProduct, updateProduct, dispatch } = useProducts();
 
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
@@ -62,12 +62,13 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
     dispatch({ type: "setDialogOpen", payload: false });
   };
 
-  const { state, getCategories } = useCategories();
+  const { state: categoryState, getCategories } = useCategories();
+  const { state: productState } = useProducts();
   useEffect(() => {
-    if (state.categories.length === 0) {
+    if (categoryState.categories.length === 0) {
       getCategories();
     }
-  }, [getCategories, state.categories.length]);
+  }, [getCategories, categoryState.categories.length]);
   return (
     <form id="products-form" onSubmit={form.handleSubmit(handleSubmit)}>
       <FieldGroup className="">
@@ -183,7 +184,7 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
                   <SelectValue placeholder="Selecciona una categoria" />
                 </SelectTrigger>
                 <SelectContent>
-                  {state.categories.map((c) => (
+                  {categoryState.categories.map((c) => (
                     <SelectItem key={c.id} value={String(c.id)}>
                       {c.name}
                     </SelectItem>
@@ -198,7 +199,7 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
             Reset
           </Button>
           <Button type="submit" form="products-form">
-            Agregar
+            {productState.selectedProduct ? "Editar" : "Agregar"}
           </Button>
         </Field>
       </FieldGroup>

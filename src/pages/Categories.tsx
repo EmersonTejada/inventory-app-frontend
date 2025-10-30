@@ -49,17 +49,17 @@ const Categories = () => {
         onOpenChange={(open) => {
           dispatch({ type: "setDialogOpen", payload: open });
           if (!open) {
-            dispatch({ type: "setSelectedProduct", payload: null });
+            dispatch({ type: "setSelectedCategory", payload: null });
           }
         }}
       >
         <DialogContent aria-describedby={undefined}>
           <DialogHeader>
             <DialogTitle>
-              {state.selectedProduct ? "Editar producto" : "Agregar producto"}
+              {state.selectedCategory ? "Editar categoria" : "Agregar categoria"}
             </DialogTitle>
           </DialogHeader>
-          <CategoriesForm category={state.selectedProduct ?? undefined} />
+          <CategoriesForm category={state.selectedCategory ?? undefined} />
         </DialogContent>
       </Dialog>
     </section>

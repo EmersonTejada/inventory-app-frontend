@@ -31,14 +31,13 @@ const CategoriesForm = ({ category }: CategoriesFormProps) => {
     },
   });
 
-  const { createCategory, updateCategory, dispatch } = useCategories();
+  const { state, createCategory, updateCategory, dispatch } = useCategories();
 
   const handleSubmit = async (
     newCategory: z.infer<typeof categoriesSchema>
   ) => {
     if (category?.id) {
       updateCategory({ id: category?.id, ...newCategory });
-      
     } else {
       createCategory(newCategory);
     }
@@ -93,7 +92,7 @@ const CategoriesForm = ({ category }: CategoriesFormProps) => {
             Reset
           </Button>
           <Button type="submit" form="categories-form">
-            Agregar
+            {state.selectedCategory ? "Editar" : "Agregar"}
           </Button>
         </Field>
       </FieldGroup>

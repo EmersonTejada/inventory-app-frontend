@@ -58,7 +58,7 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
         dispatch({ type: "setError", payload: "Error desconocido" });
       }
     } finally {
-      dispatch({ type: "setSelectedProduct", payload: null });
+      dispatch({ type: "setSelectedCategory", payload: null });
       dispatch({ type: "setLoading", payload: false });
     }
   };
