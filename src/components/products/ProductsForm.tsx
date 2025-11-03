@@ -71,7 +71,7 @@ const ProductsForm = ({ product }: ProductsFormProps) => {
   }, [getCategories, categoryState.categories.length]);
   return (
     <form id="products-form" onSubmit={form.handleSubmit(handleSubmit)}>
-      <FieldGroup className="">
+      <FieldGroup>
         <Controller
           name="title"
           control={form.control}

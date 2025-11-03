@@ -1,3 +1,4 @@
+import LoginPage from "@/pages/Login";
 import Layout from "../layouts/Layout";
 import Categories from "../pages/Categories";
 import Products from "../pages/Products";
@@ -20,4 +21,8 @@ export const routes = [
       },
     ],
   },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  }
 ];
