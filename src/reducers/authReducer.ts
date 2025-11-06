@@ -33,7 +33,13 @@ export const authReducer = (
     case "LOGIN_ERROR":
       return { ...state, loading: false, error: action.payload };
     case "LOGOUT":
-      return { ...initialAuthState };
+      return {
+        ...state,
+        user: null,
+        loading: false,
+        error: null,
+        checking: false,
+      };
     case "SET_CHECKING":
       return { ...state, checking: action.payload };
     default:

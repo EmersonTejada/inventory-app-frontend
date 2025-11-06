@@ -12,12 +12,14 @@ const Layout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+  if (state.checking) {
     const checkAuth = async () => {
       const valid = await authVerify();
       if (!valid) navigate("/login", { replace: true });
     };
     checkAuth();
-  }, [authVerify, navigate]);
+  }
+}, [state.checking, authVerify, navigate]);
 
   if (state.checking) {
     return (

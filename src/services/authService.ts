@@ -43,3 +43,20 @@ export const verifyAuth = async (): Promise<User> => {
     throw err;
   }
 };
+
+export const logoutUser = async (): Promise<void> => {
+  try {
+    const res = await fetch(`${API_URL}/auth/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+    if (!res.ok) {
+      throw new Error(
+        `Ha habido un error al cerrar sesión: ${res.statusText}`
+      );
+    }
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}

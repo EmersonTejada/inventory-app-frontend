@@ -6,5 +6,6 @@ interface AuthContext {
   state: AuthState;
   loginUser: (user: UserLogin) => void;
   authVerify: () => Promise<boolean>
+  logoutUser: () => void
 }
 export const AuthContext = createContext<AuthContext | undefined>(undefined);

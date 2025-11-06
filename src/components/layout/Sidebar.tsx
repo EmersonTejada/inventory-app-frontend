@@ -9,11 +9,14 @@ import {
   SidebarHeader,
 } from "../ui/sidebar";
 import { Link, NavLink } from "react-router";
+import { Button } from "../ui/button";
+import { useAuth } from "@/hooks/useAuth";
 
 const AppSidebar = () => {
+  const { logoutUser } = useAuth();
   const links = [
     {
-      to: "/products",
+      to: "/",
       label: "Productos",
       icon: <Package className="size-4" />,
     },
@@ -57,9 +60,9 @@ const AppSidebar = () => {
           </SidebarGroup>
           <SidebarGroup>
             <SidebarGroupContent>
-              <NavLink
-                to="/logout"
-                className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+              <Button
+                onClick={logoutUser}
+                className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium cursor-pointer text-white w-full transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +79,7 @@ const AppSidebar = () => {
                   />
                 </svg>
                 Cerrar sesión
-              </NavLink>
+              </Button>
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
