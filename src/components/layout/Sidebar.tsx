@@ -31,7 +31,7 @@ const AppSidebar = () => {
       <Sidebar>
         <SidebarHeader>
           <Link to="/">
-            <h1 className="text-xl font-bold tracking-tight text-gray-900 px-4 py-2">
+            <h1 className="text-xl font-bold tracking-tight px-4 py-2">
               Inventory App
             </h1>
           </Link>
@@ -47,8 +47,8 @@ const AppSidebar = () => {
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       isActive
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-700 hover:bg-gray-100"
+                        ? "bg-primary text-primary-foreground "
+                        : " hover:bg-muted"
                     }`
                   }
                 >
@@ -62,7 +62,7 @@ const AppSidebar = () => {
             <SidebarGroupContent>
               <Button
                 onClick={logoutUser}
-                className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium cursor-pointer text-white w-full transition-colors"
+                className="cursor-pointer w-full"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +83,7 @@ const AppSidebar = () => {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
-        <SidebarFooter className="border-t py-3 text-center text-xs text-gray-500">
+        <SidebarFooter className="border-t py-3 text-center text-xs text-muted-foreground">
           © 2025 Inventory App
         </SidebarFooter>
       </Sidebar>

@@ -15,7 +15,7 @@ export const LoginPage = () => {
     }
   };
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-50">
+    <div className="min-h-screen flex justify-center items-center">
       <LoginForm handleSubmit={handleSubmit} />
     </div>
   );

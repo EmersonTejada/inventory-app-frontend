@@ -31,10 +31,10 @@ const Layout = () => {
 
   if (state.user) {
     return (
-      <div className="flex min-h-screen bg-gray-50">
+      <div className="flex min-h-screen">
         <SidebarProvider>
           <AppSidebar />
-          <main className="flex-1 px-8 py-6">
+          <main className="flex-1 px-8 py-6 bg-background">
             <SidebarTrigger />
             <CategoryProvider>
               <ProductProvider>
