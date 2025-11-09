@@ -65,6 +65,7 @@ const LoginForm = ({ handleSubmit }: LoginFormProps) => {
                     id={field.name}
                     placeholder="Ingresa tu contraseña"
                     aria-invalid={fieldState.invalid}
+                    type="password"
                   />
                   {fieldState.error && (
                     <FieldError errors={[fieldState.error]} />

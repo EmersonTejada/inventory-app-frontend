@@ -62,6 +62,7 @@ const AppSidebar = () => {
             <SidebarGroupContent>
               <Button
                 onClick={logoutUser}
+                variant={"destructive"}
                 className="cursor-pointer w-full"
               >
                 <svg
