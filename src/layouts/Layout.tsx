@@ -1,3 +1,4 @@
+import Header from "@/components/layout/Header";
 import AppSidebar from "@/components/layout/Sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Spinner } from "@/components/ui/spinner";
@@ -12,14 +13,14 @@ const Layout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-  if (state.checking) {
-    const checkAuth = async () => {
-      const valid = await authVerify();
-      if (!valid) navigate("/login", { replace: true });
-    };
-    checkAuth();
-  }
-}, [state.checking, authVerify, navigate]);
+    if (state.checking) {
+      const checkAuth = async () => {
+        const valid = await authVerify();
+        if (!valid) navigate("/login", { replace: true });
+      };
+      checkAuth();
+    }
+  }, [state.checking, authVerify, navigate]);
 
   if (state.checking) {
     return (
@@ -34,19 +35,22 @@ const Layout = () => {
       <div className="flex min-h-screen">
         <SidebarProvider>
           <AppSidebar />
-          <main className="flex-1 px-8 py-6 bg-background">
-            <SidebarTrigger />
-            <CategoryProvider>
-              <ProductProvider>
-                <Outlet />
-              </ProductProvider>
-            </CategoryProvider>
-          </main>
+          <div className="flex-1">
+            <Header />
+            <main className="px-8 py-6 bg-background">
+              <SidebarTrigger />
+              <CategoryProvider>
+                <ProductProvider>
+                  <Outlet />
+                </ProductProvider>
+              </CategoryProvider>
+            </main>
+          </div>
         </SidebarProvider>
       </div>
     );
   }
-  
+
   return null;
 };
 export default Layout;
